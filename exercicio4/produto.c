@@ -1,4 +1,6 @@
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "produto.h"
 
 struct produtoType{
@@ -38,7 +40,7 @@ void freeProduct(produtoType * product) {
 
 void printProduct(produtoType * product) {
 
-    printf("Item: %s, valor unitário: %.2f", product -> name, product -> price);
+    printf("Nome: %s, valor unitário: %.2f\n", product -> name, product -> price);
 
 }
 
