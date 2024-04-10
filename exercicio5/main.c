@@ -8,7 +8,7 @@ int main() {
     productType * produto3 = createProduct("Especiaria", 318.93, "0013");
 
 
-    listaType * listaDeProdutos = createList();
+    listType * listaDeProdutos = createList();
     insertCell(listaDeProdutos, produto1);
     insertCell(listaDeProdutos, produto2);
     insertCell(listaDeProdutos, produto3);

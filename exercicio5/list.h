@@ -1,5 +1,5 @@
-#ifndef _LISTA_H_
-#define _LISTA_H_
+#ifndef _LIST_H_
+#define _LIST_H_
 
 #include "product.h"
 
@@ -8,9 +8,9 @@ typedef cellType listType;
 
 listType * createList();
 
-void insertCell(listType * lista, productType * produto);
+listType * insertCell(listType * lista, productType * produto);
 
-void removeCell(listType * lista, char * barcodeOrName);
+listType * removeCell(listType * lista, char * barcodeOrName);
 
 void printList(listType * lista);
 
