@@ -25,8 +25,6 @@ void freeCell(celulaType * cell) {
 listaType * createList() {
 
     listaType * lista = (listaType *) calloc(1, sizeof(listaType));
-    lista -> primeira = (celulaType *) calloc(1, sizeof(celulaType));
-    lista -> ultima = (celulaType *) calloc(1, sizeof(celulaType));
     
     lista -> primeira = NULL;
     lista -> ultima = NULL;
@@ -53,32 +51,27 @@ void insertCell(listaType * lista, produtoType * product) {
 
 void removeCell(listaType * lista, char * barcodeOrName) {
 
-    celulaType * celulaAux = (celulaType *) calloc(1, sizeof(celulaType));
-    celulaAux = lista -> primeira;
-    celulaType * ant;
-
     if(!lista -> primeira) {
         printf("Não há elementos na lista!\n");
         return;
     }
+
+    celulaType * celulaAux = lista -> primeira;
+    celulaType * ant;
 
     while(celulaAux && strcmp(barcodeOrName, getProductName(celulaAux -> produto)) && strcmp(barcodeOrName, getProductBarcode(celulaAux -> produto))) {
         ant = celulaAux;
         celulaAux = celulaAux -> prox;
     }
 
-    if(!celulaAux -> prox && strcmp(barcodeOrName, getProductName(celulaAux -> produto)) && strcmp(barcodeOrName, getProductBarcode(celulaAux -> produto))) {
+    if(!celulaAux) {
         printf("Produto não encontrado.\n");
-        ant -> prox = NULL;
-        lista -> ultima = ant;
         return;
     }
 
     if(celulaAux == lista -> primeira) {
-        void * aux = lista -> primeira -> prox;
-        freeCell(lista -> primeira);
+        lista -> primeira = lista -> primeira -> prox;
         freeCell(celulaAux);
-        lista -> primeira = aux;
         return;
     }
 
