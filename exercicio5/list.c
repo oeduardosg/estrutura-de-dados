@@ -44,12 +44,12 @@ listType * removeCell(listType * list, char * barcodeOrName) {
 
     cellType * checker = list;
 
-    while(checker && strcmp(getProductName(checker -> product), barcodeOrName) && strcmp(getProductName(checker -> product), barcodeOrName)) {
+    while(checker && strcmp(getProductName(checker -> product), barcodeOrName) && strcmp(getProductBarcode(checker -> product), barcodeOrName)) {
         checker = checker -> next;
     }
 
     if(!checker) {
-        printf("O produto não foi encontrado.");
+        printf("O produto não foi encontrado.\n");
         return list;
     }
 
@@ -80,13 +80,29 @@ return list;
 
 void printList(listType * list) {
 
-    celulaType * cellToPrint = lista;
-    if();
+    cellType * cellToPrint = list;
+
+    if(!cellToPrint) {
+        printf("Lista vazia.\n");
+        return;
+    }
 
     while(cellToPrint) {
-        printProduct(cellToPrint -> produto);
-        cellToPrint = cellToPrint -> prox;
+        printProduct(cellToPrint -> product);
+        cellToPrint = cellToPrint -> next;
     }
     printf("\n");
+
+}
+
+void freeList(listType * list) {
+
+    cellType * cellToBeFreed = list, * nextCell;
+    
+    while(cellToBeFreed) {
+        nextCell = cellToBeFreed -> next;
+        freeCell(cellToBeFreed);
+        cellToBeFreed = nextCell;
+    }
 
 }
