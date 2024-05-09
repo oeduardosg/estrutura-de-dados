@@ -7,4 +7,6 @@ Gato * inicGato(char * name, int behavior);
 
 void liberaGato(Gato * cat);
 
+void atribuiNivelAgressividadeGato(Gato * cat, int behavior);
+
 #endif

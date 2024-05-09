@@ -49,7 +49,7 @@ void removeAnimal(Lista * lista, void * animal) {
 
     Cel * checker = lista -> first;
 
-    while(checker != animal && checker) {
+    while(checker -> animal != animal && checker) {
         checker = checker -> next;
     }
 
@@ -57,9 +57,22 @@ void removeAnimal(Lista * lista, void * animal) {
         printf("O animal não foi encontrado\n");
     }
 
+    if(checker == lista -> first) {
+        lista -> first = lista -> first -> next;
+        lista -> first -> prior = NULL;
+        free(checker);
+        return;
+    }
+
+    if(checker == lista -> last) {
+        lista -> last = lista -> last -> prior;
+        lista -> last -> next = NULL;
+        free(checker);
+        return;
+    }
+
     checker -> prior -> next = checker -> next;
     checker -> next -> prior = checker -> prior;
-
-    //PAREI AQUI, FALTAM MAIS CASOS DE TROCA DE PONTEIROS;
+    free(checker);
 
 }

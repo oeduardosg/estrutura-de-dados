@@ -9,6 +9,7 @@
 #define BanhoTosa_h
 
 #include <stdio.h>
+#include "Lista.h"
 #include "Gato.h"
 #include "Cachorro.h"
 

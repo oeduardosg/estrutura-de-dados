@@ -6,16 +6,30 @@
 //
 
 #include "BanhoTosa.h"
+#include <string.h>
 
 struct banhotosa {
-
+    char * shopName;
+    Lista * agressives;
+    Lista * dociles;
 };
 
+BanhoTosa* inicBanhoTosa(char* nome) {
+    
+    BanhoTosa * petshop = (BanhoTosa *) calloc(1, sizeof(BanhoTosa));
 
-BanhoTosa* inicBanhoTosa(char* nome);
+    petshop -> shopName = strdup(nome);
+    petshop -> agressives = inicLista();
+    petshop -> dociles = inicLista();
+
+}
 
 
-void cadastraCachorro(BanhoTosa* loja, Cachorro* dog);
+void cadastraCachorro(BanhoTosa* loja, Cachorro* dog) {
+
+    //Caso de cachorro bravo ou dócil com get;
+
+}
 
 
 void cadastraGato(BanhoTosa* loja, Gato* cat);

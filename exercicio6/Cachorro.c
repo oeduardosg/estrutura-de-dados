@@ -22,3 +22,7 @@ void liberaCachorro(Cachorro * dog) {
     free(dog);
 
 }
+
+void atribuiNivelAgressividadeCachorro(Cachorro * dog, int behavior) {
+    dog -> behavior = behavior;
+}

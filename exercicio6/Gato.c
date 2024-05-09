@@ -22,3 +22,7 @@ void liberaGato(Gato * cat) {
     free(cat);
 
 }
+
+void atribuiNivelAgressividadeGato(Gato * cat, int behavior) {
+    cat -> behavior = behavior;
+}
