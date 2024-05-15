@@ -42,9 +42,14 @@ void insereElemento(Fila * fila, Amostra * amostra) {
         fila -> nextOut = novaCelula;
     }
     else {
-        //Fazer caso de idosos na fila
-        fila -> lastIn -> nextCell = novaCelula;
-        fila -> lastIn = novaCelula;
+        if(retornaIdade(amostra) >= 60) {
+            novaCelula -> nextCell = fila -> nextOut;
+            fila -> nextOut = novaCelula;
+        }
+        else {
+            fila -> lastIn -> nextCell = novaCelula;
+            fila -> lastIn = novaCelula;
+        }
     }
 
 return;
@@ -54,20 +59,32 @@ Amostra * removeElemento(Fila * fila) {
 
     if(!fila) {
         printf("A fila não existe.\n");
-        return;
+        return NULL;
     }
 
     if(!fila -> nextOut) {
         printf("A fila não possui elementos para remover.\n");
-        return;
+        return NULL;
     }
 
     Celula * toFree = fila -> nextOut;
-    fila -> nextOut = fila -> nextOut -> nextCell;
     Amostra * amostra = fila -> nextOut -> amostra;
+    fila -> nextOut = fila -> nextOut -> nextCell;
     free(toFree);
 
 return amostra;
+}
+
+void imprimeFila(Fila * fila) {
+    
+    Celula * runner = fila -> nextOut;
+
+    while(runner) {
+        imprimeAmostra(runner -> amostra);
+        runner = runner -> nextCell;
+    }
+    printf("\n");
+
 }
 
 void liberaFila(Fila * fila) {
@@ -76,22 +93,12 @@ void liberaFila(Fila * fila) {
 
     while(liberador) {
         fila -> nextOut = fila -> nextOut -> nextCell;
+        liberaAmostra(liberador -> amostra);
         free(liberador);
         liberador = fila -> nextOut;
     }
 
     free(fila -> nomeDaFila);
     free(fila);
-
-}
-
-void liberaFila(Fila * fila) {
-    
-    Celula * printer = fila -> nextOut;
-
-    while(printer) {
-        imprimeAmostra(printer -> amostra);
-        printer = printer -> nextCell;
-    }
 
 }
