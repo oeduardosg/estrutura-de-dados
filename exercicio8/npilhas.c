@@ -32,8 +32,14 @@ return pilha;
 
 void insereNElemento(pilhas * pilha, int indice, int * elemento) {
 
-    if(pilha -> pilhas[indice].topo + 1 == pilha -> pilhas[indice + 1].base) {
+    if(indice >= pilha -> qtdPilhas) {
+        printf("Essa pilha não existe!\n");
+        free(elemento);
+        return;
+    }
+    if(pilha -> pilhas[indice].topo + 1 == pilha -> pilhas[indice + 1].base || pilha -> pilhas[indice].topo == MAX_NITENS - 1) {
         printf("Overflow. Não é possível adicionar mais elementos à essa pilha.\n");
+        free(elemento);
         return;
     }
 
@@ -46,7 +52,12 @@ int * removeNElemento(pilhas * pilha, int indice) {
 
     int * elemento = 0;
 
-    if(pilha -> itens[pilha -> pilhas[indice].topo] == pilha -> itens[pilha -> pilhas[indice].base] - 1) {
+    if(indice < 0 || indice >= pilha -> qtdPilhas) {
+        printf("Essa pilha não existe!");
+        return NULL;
+    }
+
+    if(pilha -> pilhas[indice].topo == pilha -> pilhas[indice].base - 1) {
         printf("Não há elementos na pilha para serem removidos.\n");
         return NULL;
     }
@@ -72,10 +83,9 @@ void imprimeNPilha(pilhas * pilha) {
 void liberaNPilha(pilhas * pilha) {
     
     for(int i = 0; i < pilha -> qtdPilhas; i++) {
-        for(int j = 0; j <= pilha -> pilhas[i].topo; j++) {
-            free(pilha -> itens[pilha -> pilhas[i].base + j]);
+        for(int j = pilha -> pilhas[i].base; j <= pilha -> pilhas[i].topo; j++) {
+            free(pilha -> itens[j]);
         }
-        printf("\n");
     }
 
     free(pilha);

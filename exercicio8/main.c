@@ -5,7 +5,7 @@
 
 int * leNum() {
 
-    int * num = malloc(sizeof(int));
+    int * num = (int *) calloc(1, sizeof(int));
     scanf("%d", num);
 
 return num;
@@ -38,15 +38,32 @@ int main() {
     }
     else {
 
-        int qtdPilhas = 0;
-        printf("Quantas pilhas? ");
+        int qtdPilhas = 0, pilha1 = 0, pilha2 = 0;
+        printf("Quantas pilhas? [MÁXIMO 100]");
         scanf("%d", &qtdPilhas);
         pilhas * pilha = inicNPilhas(qtdPilhas);
 
-        insereNElemento(pilha, 2, leNum());
-        insereNElemento(pilha, 2, leNum());
+        while(1) {
+            printf("Informe a pilha e o elemento que deseja adicionar: ");
+            scanf("%d", &pilha1);
+            if(pilha1 == -1) break;
+            insereNElemento(pilha, pilha1, leNum());
+        }
 
         imprimeNPilha(pilha);
+
+        while(1) {
+            printf("Informe duas pilhas, uma para receber o último valor de outra: ");
+            scanf("%d %d", &pilha1, &pilha2);
+            if(pilha1 == -1) break;
+            int * t = removeNElemento(pilha, pilha2);
+            if(t) {
+                insereNElemento(pilha, pilha1, t);
+            }
+        }
+
+        imprimeNPilha(pilha);
+        liberaNPilha(pilha);
     }
 
 return 0;

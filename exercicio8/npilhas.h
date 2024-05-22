@@ -3,8 +3,8 @@
 
 #include "npilhas.h"
 
-#define MAX_NITENS 100
-#define N_PILHAS 10
+#define MAX_NITENS 1000
+#define N_PILHAS 100
 
 typedef struct pilhas pilhas;
 
