@@ -1,21 +1,21 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct treeType treeType;
+#include "generictree.h"
 
 struct treeType{
     treeType * left;
     treeType * right;
     void * data;
     void (* print)(void *);
-    int (* compare)(void *, void *);
+    int (* compare)(void *, int);
+    void (* free)(void *);
+    int (* get)(void *);
 };
 
 treeType * createEmptyTree() {
     return NULL;
 }
 
-treeType * createTree(treeType * left, treeType * right, void * data, void (* print)(void *), int (* compare)(void *, void *)) {
+treeType * createTree(treeType * left, treeType * right, void * data, void (* print)(void *), 
+                    int (* compare)(void *, int), void (* free)(void *), int (* get)(void *)) {
 
     treeType * tree = (treeType *) calloc(1, sizeof(treeType));
     tree -> left = left;
@@ -23,6 +23,8 @@ treeType * createTree(treeType * left, treeType * right, void * data, void (* pr
     tree -> data = data;
     tree -> print = print;
     tree -> compare = compare;
+    tree -> free = free;
+    tree -> get = get;
 
 return tree;
 }
@@ -37,20 +39,17 @@ void printTree(treeType * tree) {
     printTree(tree -> right);
 }
 
-int compareTree(treeType * tree, void * data) {
-    return tree -> compare(tree -> data, data);
-}
-
-/*
 void freeTree(treeType * tree) {
+    
+    if(!emptyTree(tree -> right)) freeTree(tree -> right);
+    if(!emptyTree(tree -> left)) freeTree(tree -> left);
 
-    if(tree -> right) freeTree(tree -> right);
-    if(tree -> left) freeTree(tree -> left);
-    freedata(tree -> data);
+    printf("Freeing: ");
+    tree -> print(tree -> data);
+    tree -> free(tree -> data);
     free(tree);
 
 }
-*/
 
 int emptyTree(treeType * tree) {
     return tree == NULL;
@@ -73,10 +72,12 @@ int leafs(treeType * tree) { //retorna o número de folhas da árvore
 
 }
 
+/*
 int frequency(treeType * tree , char * name) { //retorna o número de vezes que o aluno aparece na árvore
     if(!tree) return 0;
-    return frequency(tree -> left, name) + frequency(tree -> right, name) + !strcmp(getdataName(tree -> data), name);
+    return frequency(tree -> left, name) + frequency(tree -> right, name) + !strcmp(getDataName(tree -> data), name);
 }
+*/
 
 int height(treeType * tree) { //retorna a altura da árvore
 
@@ -88,16 +89,16 @@ int height(treeType * tree) { //retorna a altura da árvore
 return heightLeft >= heightRight ? heightLeft: heightRight;
 }
 
-void insertData(treeType * tree, void * data, void (* print)(void *), int (* compare)(void *, void *)) {
+void insertData(treeType * tree, void * data, void (* print)(void *), int (* compare)(void *, int), void (* free)(void *), int (* get)(void *)) {
 
-    if(!tree) return 0;
-    if(getRgNum(data) < getRgNum(tree -> data)) {
-        if(!tree -> left) createTree(data, createEmptyTree(), createEmptyTree(), print, compare);
-        else insertData(tree -> left, data, print, compare);
+    if(!tree) return;
+    if(get(data) < get(tree -> data)) {
+        if(!tree -> left) tree -> left = createTree(createEmptyTree(), createEmptyTree(), data,  print, compare, free, get);
+        else insertData(tree -> left, data, print, compare, free, get);
     }
     else {
-        if(!tree -> right) createTree(data, createEmptyTree(), createEmptyTree(), print, compare);
-        else insertData(tree -> right, data, print, compare);
+        if(!tree -> right) tree -> right = createTree(createEmptyTree(), createEmptyTree(), data, print, compare, free, get);
+        else insertData(tree -> right, data, print, compare, free, get);
     }
 
 }
@@ -107,25 +108,41 @@ treeType * mostRight(treeType * tree) {
 return tree;
 }
 
-void * removeData(treeType * tree, void * data) {
-
-    //Os datas comparados não fazem sentido! Adicionar a função de compare.
+void removeData(treeType * tree, int searchKey) {
 
     if(!tree) return;
-    if(getRgNum(tree -> data) != data) {
-        if(data < getRgNum(tree -> data)) removeData(tree -> left, data);
-        else removeData(tree -> right, data);
+    if(tree -> get(tree -> data) != searchKey) {
+        if(searchKey < tree -> get(tree -> data)) removeData(tree -> left, searchKey);
+        else removeData(tree -> right, searchKey);
         return;
     }
+    else {
+        treeType * righter = mostRight(tree -> left);
+        void * swapData = righter -> data;
+        void * auxData = tree -> data;
+        tree -> data = swapData;
+        righter -> data = auxData;
 
-    treeType * righter = mostRight(tree -> left);
-    void * swapData = righter -> data;
-    void * auxData = tree -> data;
-    tree -> data = swapData;
-    righter -> data = auxData;
-
+        tree -> free(righter -> data);
+        free(righter);
+    }
     
-return tree -> data;
 }
 
+void search(treeType * tree, int searchKey) {
 
+    if(emptyTree(tree)) return;
+
+    if(tree -> compare(tree -> data, searchKey)) {
+
+        printf("This data was found inside the binary tree according to the search key of value %d:\n", searchKey);
+        tree -> print(tree -> data);
+
+    }
+    else {
+        if(searchKey > tree -> get(tree -> data)) search(tree -> right, searchKey);
+        else search(tree -> left, searchKey);
+    }
+
+return;
+}
