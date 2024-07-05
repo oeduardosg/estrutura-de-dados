@@ -75,13 +75,13 @@ return heightLeft >= heightRight ? heightLeft: heightRight;
 
 void insertStudent(treeType * tree, studentType * student) {
 
-    if(!tree) return 0;
+    if(!tree) return;
     if(getRgNum(student) < getRgNum(tree -> student)) {
-        if(!tree -> left) createTree(student, createEmptyTree(), createEmptyTree());
+        if(!tree -> left) tree -> left = createTree(student, createEmptyTree(), createEmptyTree());
         else insertStudent(tree -> left, student);
     }
     else {
-        if(!tree -> right) createTree(student, createEmptyTree(), createEmptyTree());
+        if(!tree -> right) tree -> right = createTree(student, createEmptyTree(), createEmptyTree());
         else insertStudent(tree -> right, student);
     }
 
@@ -92,21 +92,21 @@ treeType * mostRight(treeType * tree) {
 return tree -> right;
 }
 
-studentType * removeStudentByRgNum(treeType * tree, int rgNum) {
+void removeStudentByRgNum(treeType * tree, int rgNum) {
 
-    if(!tree) return 0;
+    if(!tree) return;
     if(getRgNum(tree -> student) != rgNum) {
-        if(rgNum < getRgNum(tree -> student)) return removeStudentByRgNum(tree -> left, rgNum);
-        else return removeStudentByRgNum(tree -> right, rgNum);
+        if(rgNum < getRgNum(tree -> student)) removeStudentByRgNum(tree -> left, rgNum);
+        else removeStudentByRgNum(tree -> right, rgNum);
+    }
+    else {
+        treeType * righter = mostRight(tree -> left);
+        studentType * auxStudent = tree -> student;
+        tree -> student = righter -> student;
+        righter -> student = auxStudent;
+
+        freeStudent(righter -> student);
+        free(righter);
     }
 
-    //Repensar isso de swaptree pois está erradíssimo!!!!!
-    treeType * swapTree = createStudent(getStudentName(tree -> student), getRgNum(tree -> student));
-
-    if(!emptyTree(tree -> right)) {
-        swapTree = mostRight(tree -> right);
-    }
-    else swapTree -> student = tree;
-    
-return tree -> student;
 }

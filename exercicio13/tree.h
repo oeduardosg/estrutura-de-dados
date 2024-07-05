@@ -10,7 +10,7 @@ typedef struct treeType treeType;
 
 treeType * createEmptyTree();
 
-treeType * createTree();
+treeType * createTree(studentType * student, treeType * left, treeType * right);
 
 void printTree(treeType * tree);
 
@@ -24,6 +24,6 @@ int height(treeType * tree); //retorna a altura da árvore
 
 void insertStudent(treeType * tree, studentType * student);
 
-studentType * removeStudentByRgNum(treeType * tree, int rgNum);
+void removeStudentByRgNum(treeType * tree, int rgNum);
 
 #endif
