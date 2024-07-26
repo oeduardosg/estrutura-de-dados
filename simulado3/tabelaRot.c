@@ -88,7 +88,7 @@ void search(hashTab * ht, char * dest) {
     }
 
     if(!strcmp(dest, getDest(ht -> tab[index]))) {
-        printf("FOUND A NEXTHOP FOR DESTINATION %s", dest);
+        printf("FOUND A NEXTHOP FOR DESTINATION %s\n", dest);
         return;
     }
     else {
@@ -97,7 +97,7 @@ void search(hashTab * ht, char * dest) {
 
         while(nh) {
             if(!strcmp(dest, getDest(ht -> tab[index]))) {
-                printf("FOUND A NEXTHOP FOR DESTINATION %s", dest);
+                printf("FOUND A NEXTHOP FOR DESTINATION %s\n", dest);
                 return;
             }
             nh = getNext(nh);
@@ -112,9 +112,7 @@ void search(hashTab * ht, char * dest) {
 
 void freeHash(hashTab * hash) {
 
-    for(int i = 0; i < hash -> size; i++) {
-        free(hash -> tab[i]);
-    }
+    free(hash -> tab);
     free(hash);
 
 }
