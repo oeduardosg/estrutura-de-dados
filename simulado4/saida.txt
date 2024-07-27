@@ -1,0 +1,6 @@
+texto 8
+
+------------------------
+1 palavras distintas encontradas
+8 palavras no total
+texto é a palavra de maior frequência (8)

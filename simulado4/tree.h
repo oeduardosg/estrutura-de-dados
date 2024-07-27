@@ -9,12 +9,20 @@ typedef struct tree tree;
 
 tree * createTree(char * word);
 
+int getCount(tree * t);
+
+char * getWord(tree * t);
+
 void searchWord(tree * t, char * word);
 
 int wordsQuantity(tree * t);
 
+int totalWords(tree * t);
+
+tree * higherFrequency(tree * t);
+
 void freeTree(tree * t);
 
-void stats(tree * t);
+void stats(FILE * f);
 
 #endif

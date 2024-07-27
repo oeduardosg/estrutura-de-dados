@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "stdio.h": "c",
-        "tabelarot.h": "c"
+        "tabelarot.h": "c",
+        "string.h": "c"
     }
 }
