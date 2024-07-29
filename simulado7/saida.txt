@@ -1,0 +1,15 @@
+para 1
+estruturas 1
+final 1
+entrada 1
+prova 1
+exemplo 1
+arquivo 1
+a 1
+dados 2
+de 5
+
+------------------------
+10 palavras distintas encontradas
+15 palavras no total
+de é a palavra de maior frequência (5)
